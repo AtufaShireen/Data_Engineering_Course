@@ -1,0 +1,22 @@
+postgres+docker
+
+# Connecting to postgresql
+1. download postgres image using docker with configurations such as password, user, db_name, volumes, port
+2. volumes: maps(mounting) the folder name on the machine to data base to store files.
+3. add permissions for the mounted directory.
+4. pip install pgcli for connecting with pgsql using cmd.
+5.  pgcli -h localhost -p 5432 -u root -d ny_taxi
+<host_name>, <port_name>, <user_name>, <database_name>
+
+# Installing data into required directory
+1. wget wget https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.parquet
+2. cp ~/pg-test/yellow-yellow_tripdata_2021.parquet . (cd into where you want file (my case in dataset folder of DE_Zoomcap))
+3.install fastparquet for reading parquet files.
+
+# Ingesting data
+1. convert timestamps (str by default ) to datetime using  pd.to_datetime
+Note: pd.io.sql.get_schema(df,name='yello_dataset') to get the DDL command of creating table for dataset.(schema)
+2. install and use sqlachemy to create table, and insert data.
+create_engine('postgresql://root:root@localhost:5432/ny_taxi')
+3. pass this to conn param to pandas to_sql.
+4. check on pgcli using \dt or select count(1) from tablename.
