@@ -1,0 +1,8 @@
+venv
+__pychache__/
+.vscode/
+*.pyc
+.idea/
+ny_data/
+.DS_Store
+*.parquet

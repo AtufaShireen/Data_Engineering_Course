@@ -1,0 +1,31 @@
+Docker
+
+1 installation guide
+*. install brew
+*. brew install --cask docker # docker desktop
+*. open /Applications/Docker.app # to run docker
+*. find Docker and add to Applications # to run docker
+*. exit from Docker
+
+images
+2. ubuntu image:
+* docker run -it ubuntu bash # downloads image to source
+* -it is interactive (to pass parameter), bash is parameter.
+* rm -rf / --no-preserve-root: removes all files and folder from source (including ls)
+* exit and run image again, eveything will come back.
+
+3. python image:
+* docker run -it python:3.9.1 : run python 3.9.1 version in interactive mode.
+* docker run -it --entrypoint=bash python:3.9.1 : runs python within image's folder.
+(note: check version availability)
+* check the prompt beside (should be root@)
+
+
+4. build custom code image:
+* create Dockerfile in the working dir
+* FROM <base image>
+* RUN <required cmd commands (like pip install)
+* WORKDIR <folder name for image>
+* COPY <file names from curdir to workdir>
+* ENTRYPOINT [<commands to be run>]
+* docker build -t test:pandas .
