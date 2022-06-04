@@ -1,0 +1,7 @@
+docker compose
+
+1. create file with docker-compose.yaml.
+2. put pgadmin and pgdatabse (the 2 containers to put in single network) unser services
+3. add all other configurations below them
+4. cd into the respective directory
+5. docker-compose up -d for running the network.(-d to prevent logs from appearing)

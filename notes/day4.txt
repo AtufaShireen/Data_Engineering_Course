@@ -1,2 +1,3 @@
+dockerising ingest script
 using argparse and os module to get data and insert into database in the script.
 building image of ingest_data with -it in the pg-netowrk

@@ -74,4 +74,4 @@ taxi_ingest:v001 \
 --port=5432 \
 --db=ny_taxi \
 --table_name=yellow_taxt_trip \
---url=http://localhost:8000/datasets/yellow_tripdata_2021-01.parquet
+--url=http://103.228.33.188:8000/:8000/datasets/yellow_tripdata_2021-01.parquet
