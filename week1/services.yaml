@@ -13,7 +13,7 @@ services:
       retries: 5
     restart: always
 
-
+# posgresql
 docker run -it \
 	-e POSTGRES_USER="root" \
   -e POSTGRES_PASSWORD="root" \
@@ -22,9 +22,31 @@ docker run -it \
   -p 5432:5432 \
 	postgres:13
 
-
+#pgadmin
 docker run -it \
 -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
--e PGADMIN_DEFAULT_PASSWORD="root" \ 
--p 8080:80 \ 
+-e PGADMIN_DEFAULT_PASSWORD="root" \
+-p 8081:80 \
+dpage/pgadmin4
+
+
+#network (pgsql+pgadmin)
+#pgsql
+docker run -it \
+-e POSTGRES_USER="root" \
+-e POSTGRES_PASSWORD="root" \
+-e POSTGRES_DB="ny_taxi" \
+-v /Users/atufashireen/projects/DE_ZoomCamp/week1/ny_data:/var/lib/postgresql/data \
+-p 5432:5432 \
+--network=pg-network \
+--name pg-database \
+postgres:13
+
+#pgadmin
+docker run -it \
+-e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+-e PGADMIN_DEFAULT_PASSWORD="root" \
+-p 8080:80 \
+--network=pg-network \
+--name pg-admin \
 dpage/pgadmin4

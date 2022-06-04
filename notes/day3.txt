@@ -1,0 +1,16 @@
+# docker network (pgadmin + pgsql)
+1. get the image and provide configurations: email, pass, port and image name.
+2. got to the host and port provided in configuration:
+    http://localhost:8080/
+3. To combine pgsql database (running in one container, with ny database) and pgadmin(running in another container)
+create docker network.
+        docker network create pg-network
+
+4. add --network=<network_name>, --name=<container_name>
+for pgadmin: 
+--network=pg-network \
+--name pg-admin \
+for pgsql:
+--network=pg-network \
+--name pg-sql \
+5. goto port, login, register server, add pgsql in hostname in connections.
