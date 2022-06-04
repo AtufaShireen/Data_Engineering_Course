@@ -1,0 +1,1 @@
+using argparse and os module to get data and insert into database.
