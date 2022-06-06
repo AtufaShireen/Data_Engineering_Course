@@ -6,3 +6,4 @@ __pychache__/
 ny_data/
 .DS_Store
 *.parquet
+datasets/

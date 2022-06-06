@@ -1,0 +1,75 @@
+sql refresher
+
+# selects
+1. select * from yellow_taxt_data;
+2. select * from yellow_taxt_data limit 100;
+
+#joins
+1. select
+t.tpep_pickup_datetime,
+t.total_amount,
+CONCAT(zpu."Borough",' / ',zpu."Zone") AS "pickup_loc",
+CONCAT(zdo."Borough",' / ',zdo."Zone") AS "dropoff_loc"
+from 
+yellow_taxt_data t,
+zones zpu,
+zones zdo
+where
+t."PULocationID"=zpu."LocationID" AND t."PULocationID"=zdo."LocationID"
+limit 100
+2.select
+t.tpep_pickup_datetime,
+t.total_amount,
+CONCAT(zpu."Borough",' / ',zpu."Zone") AS "pickup_loc",
+CONCAT(zdo."Borough",' / ',zdo."Zone") AS "dropoff_loc"
+from 
+yellow_taxt_data t 
+join 
+zones zpu on t."PULocationID"=zpu."LocationID"
+join
+zones zdo on t."PULocationID"=zdo."LocationID"
+limit 100
+
+3.select
+t.tpep_pickup_datetime,
+t.total_amount,
+CONCAT(zpu."Borough",' / ',zpu."Zone") AS "pickup_loc",
+CONCAT(zdo."Borough",' / ',zdo."Zone") AS "dropoff_loc"
+from 
+yellow_taxt_data t 
+left join 
+zones zpu on t."PULocationID"=zpu."LocationID"
+left join
+zones zdo on t."PULocationID"=zdo."LocationID"
+where
+t."PULocationID" not in (zpu."LocationID")
+limit 100
+
+#groupby
+1. select
+cast(t.tpep_dropoff_datetime as date) as "day",
+count(1)
+from 
+yellow_taxt_data t
+group by
+"day"
+order by "day" asc
+2. select
+cast(t.tpep_dropoff_datetime as date) as "day",
+count(1)
+from 
+yellow_taxt_data t
+group by
+"day"
+order by "count" desc
+limit 1
+3. select
+cast(t.tpep_dropoff_datetime as date) as "day",
+count(1),
+max(t.total_amount),
+max(t.passenger_count)
+from 
+yellow_taxt_data t
+group by
+"day"
+order by "count" desc
