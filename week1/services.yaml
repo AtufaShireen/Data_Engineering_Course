@@ -52,22 +52,8 @@ docker run -it \
 dpage/pgadmin4
 
 
-URL="https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.parquet"
-python ingest_data.py \
---user=root \
---password=root \
---host=localhost \
---port=5432 \
---db=ny_taxi \
---table_name=yellow_taxt_trip \
---url=https://s3.amazonaws.com/nyc-tlc/trip+data/yellow_tripdata_2021-01.parquet
-
 
 docker build -t taxi_ingest:v001 .
-
-
-
-
 
 docker run -it \
 --network=pg-network \

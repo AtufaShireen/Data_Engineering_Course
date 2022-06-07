@@ -1,0 +1,8 @@
+Setting Up GCP
+1. create gcp account with card details.
+2. create new project.
+3. create new service account (in iam>service accounts)
+4. goto manage keys and dowload newly created key
+4. add permission or roles for this service account(in iam>iam)
+5. enable api for the resources access
+    https://console.cloud.google.com/marketplace/product/google/iam.googleapis.com
