@@ -1,0 +1,48 @@
+#Setting Up GCP
+1. create gcp account with card details.
+2. create new project.
+3. create new service account (in iam>service accounts)
+4. goto manage keys and dowload newly created key
+4. add permission or roles for this service account(in iam>iam)
+5. enable api for the resources access
+    https://console.cloud.google.com/marketplace/product/google/iam.googleapis.com
+6. install gcloud tar.gz file and move to home directory
+7. extract using tar -xf filename
+8. remove zip file.
+9. ./google-cloud-sdk/bin/gcloud init
+10. export PATH="$HOME/google-cloud-sdk/bin:$PATH"
+11. export GOOGLE_CLOUD_CREDENTIALS=Downloads/custom-sylph-352501-9530ce6ec339.json
+12. 11. cloud auth application -default login
+13. rename the credentials to google_credentials.json and move to home (for standardization)
+
+#Setting up Terraform
+1. install terraform 
+    brew tap hashicorp/tap
+    brew install hashicorp/tap/terraform
+1. create terraform folder.
+2. create main.tf
+    add respective cloud details
+3. create varaibles.tf
+    add respective varaibles required in main.tf
+4. run terraform init, terraform plan , terraform apply
+
+# Setting Up aiflow 
+airflow architecture
+web server: to inspect dags.
+scheduler: scheduling jobs: monitor, trigger, submit tasks to executers.
+worker: executes tasks 
+metadata database: stores state of envirenment.
+executer:
+dags: directed acyclic graphs, specifies dependencies
+task: operators, running, triggering.
+
+optional:
+redis for scheduler, flower for monitoring.
+1. create airflow folder
+2. download docker compose file 
+    curl -LfO "https://airflow.apache.org/docs/apache-airflow/stable/docker-compose.yaml"
+3. create empty dirs, env folder and add airflow AIRFLOW_UID
+    echo -e "AIRFLOW_UID=$(id -u)" > .env 
+    mkdir -p ./dags ./logs ./plugins
+4. create docker file which installs gcloud sdk
+5. docker-compose build , docker-compose airflow-init, docker-compose up
