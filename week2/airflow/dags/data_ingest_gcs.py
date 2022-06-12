@@ -14,10 +14,10 @@ import pyarrow.parquet as pq
 
 PROJECT_ID = os.environ.get("GCP_PROJECT_ID")
 BUCKET = os.environ.get("GCP_GCS_BUCKET")
+path_local_home = os.environ.get("AIRFLOW_HOME","/opt/airflow/")
 
 dataset_file  = "yellow_tripdata_2021-01.parquet"
-dataset_url = f"https://s3.amazonaws.com/nyc-tlc/trip+data/{dataset_file}"
-path_local_home = os.environ.get("AIRFLOW_HOME","/opt/airflow/")
+dataset_url = f"https://s3.amazonaws.com/nyc-tlc/trip+data/{dataset_file}"#"/trip_data/yellow_tripdata_2021-01.parquet"#f"https://s3.amazonaws.com/nyc-tlc/trip+data/{dataset_file}"
 parquet_file = dataset_file
 
 
@@ -45,6 +45,7 @@ def format_to_parquet(src_file):
 
 # NOTE: takes 20 mins, at an upload speed of 800kbps. Faster if your internet has a better upload speed
 def upload_to_gcs(bucket, object_name, local_file):
+    print("Important: ", local_file)
     """
     Ref: https://cloud.google.com/storage/docs/uploading-objects#storage-upload-object-python
     :param bucket: GCS bucket name
@@ -75,7 +76,8 @@ with DAG(
 ) as dag:
     download_dataset = BashOperator(
             task_id = "download_dataset_task",
-            bash_command = f"curl -sSL {dataset_url} > {path_local_home}/{dataset_file}"
+            bash_command = f"curl -sSL {dataset_url} > {path_local_home}/{dataset_file}" #f"cp {dataset_url} {path_local_home}/{dataset_file}"
+            
     )
     format_to_parquet = PythonOperator(
         task_id = "format_parquet_task",
@@ -95,8 +97,16 @@ with DAG(
     )
     bigquery_external_table = BigQueryCreateExternalTableOperator(
         task_id="bigquery_external_table_task",
-        destination_project_dataset_table=f"{BIGQUERY_DATASET}.external_table",
-        bucket=BUCKET,
-        source_objects=[f"gs://{BUCKET}/raw/{parquet_file}"],   
+        table_resource={
+            "tableReference": {
+                "projectId": PROJECT_ID,
+                "datasetId": BIGQUERY_DATASET,
+                "tableId": "external_table",
+            },
+            "externalDataConfiguration": {
+                "sourceFormat": "PARQUET",
+                "sourceUris": [f"gs://{BUCKET}/raw/{parquet_file}"],
+            },
+        },
     )
     download_dataset >> format_to_parquet >> local_gcs >>bigquery_external_table

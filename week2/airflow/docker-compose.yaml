@@ -60,13 +60,17 @@ x-airflow-common:
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
     AIRFLOW_CONN_GOOGLE_CLOUD_DEFAULT: 'google-cloud-platform://?extra__google_cloud_platform__key_path=/.google/credentials/google_credentials.json' 
-    GOOGLE_APPLICATION_CREDENTIALS: ./google/google_credenetials.json
+    GOOGLE_APPLICATION_CREDENTIALS: /.google/credentials/google_credentials.json
+    DUMMY_DATASET_URI: /.trip_data/yellow_tripdata_2021-01.parquet
     GCP_PROJECT_ID: 'custom-sylph-352501'
     GCP_GCS_BUCKET: 'dtc_data_lake_custom-sylph-352501'
   volumes:
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
     - ./plugins:/opt/airflow/plugins
+    - ~/.google/credentials/:/.google/credentials:ro
+    - ~/.trip_data/:/.trip_data:ro
+
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
     &airflow-common-depends-on

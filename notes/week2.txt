@@ -45,4 +45,7 @@ redis for scheduler, flower for monitoring.
     echo -e "AIRFLOW_UID=$(id -u)" > .env 
     mkdir -p ./dags ./logs ./plugins
 4. create docker file which installs gcloud sdk
-5. docker-compose build , docker-compose airflow-init, docker-compose up
+5. mount folders to required directories, add env vars.
+6. write dags
+7. docker-compose build , docker-compose airflow-init, docker-compose up
+8. goto dashboard and trigger dags.
