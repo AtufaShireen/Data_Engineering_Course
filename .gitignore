@@ -11,3 +11,4 @@ terraform.tfstate
 .terraform.lock.hcl
 .terraform
 logs/
+rough_file.py
